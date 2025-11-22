@@ -1,39 +1,19 @@
 import React, { useState } from 'react';
-import { MetricData, CardTheme } from '../types';
-import { BookOpen, Target, Search, Calculator, Lightbulb } from 'lucide-react';
+import { MetricData } from '../types';
 import { AbstractGraphic } from './AbstractGraphic';
 import { motion } from 'framer-motion';
+import { ArrowRight, BookOpen, Target, ListChecks } from 'lucide-react';
 
 interface MetricCardProps {
   data: MetricData;
 }
 
-const iconBgStyles: Record<CardTheme, string> = {
-  [CardTheme.CREAM]: 'bg-[#FFE082]',
-  [CardTheme.LAVENDER]: 'bg-[#D1C4E9]',
-  [CardTheme.MINT]: 'bg-[#B2DFDB]',
-  [CardTheme.PEACH]: 'bg-[#FFCC80]',
-  [CardTheme.SKY]: 'bg-[#B3E5FC]',
-};
-
-const cardBgStyles: Record<CardTheme, string> = {
-  [CardTheme.CREAM]: 'bg-[#FFF9E6]', // Cream
-  [CardTheme.LAVENDER]: 'bg-[#F3E5F5]', // Lavender
-  [CardTheme.MINT]: 'bg-[#E0F2F1]', // Mint
-  [CardTheme.PEACH]: 'bg-[#FFF3E0]', // Peach
-  [CardTheme.SKY]: 'bg-[#E1F5FE]', // Sky
-};
-
 export const MetricCard: React.FC<MetricCardProps> = ({ data }) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
-  const iconBgClass = iconBgStyles[data.theme];
-  const cardBgClass = cardBgStyles[data.theme];
-  
-  // Removed border classes, kept shadow and bg
-  const cardBaseClasses = `${cardBgClass} shadow-sm transition-all duration-300 group-hover:shadow-md`;
-  // Changed to rounded-xl (12px)
-  const borderRadius = "rounded-xl";
+  // Dark Mode Minimalist Style
+  const cardBaseClasses = "bg-black text-white overflow-hidden shadow-xl";
+  const borderRadius = "rounded-[2rem]";
 
   return (
     <motion.div
@@ -41,9 +21,9 @@ export const MetricCard: React.FC<MetricCardProps> = ({ data }) => {
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.95 }}
-      whileHover={{ y: -5 }} // Microinteraction: Lift on hover
-      transition={{ duration: 0.3, ease: "easeOut" }}
-      className="h-full perspective-1000 cursor-pointer group w-full"
+      whileHover={{ y: -8 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      className="h-full perspective-1000 cursor-pointer w-full min-h-[480px]"
       onClick={() => setIsFlipped(!isFlipped)}
     >
       <motion.div
@@ -54,76 +34,98 @@ export const MetricCard: React.FC<MetricCardProps> = ({ data }) => {
       >
         {/* --- FRONT FACE --- */}
         <div 
-          className={`col-start-1 row-start-1 w-full h-full ${cardBaseClasses} ${borderRadius} p-6 flex flex-col relative overflow-hidden`}
+          className={`col-start-1 row-start-1 w-full h-full ${cardBaseClasses} ${borderRadius} p-7 flex flex-col relative justify-between border border-stone-800`}
           style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
         >
-          
-          {/* Illustration Top Right */}
-          <div className="absolute top-6 right-6 w-14 h-14 pointer-events-none opacity-80">
-              <AbstractGraphic theme={data.theme} />
+          {/* Top: Category & Icon */}
+          <div className="flex justify-between items-start mb-2">
+             <span className="text-[10px] font-bold text-stone-500 tracking-widest uppercase border border-stone-800 px-2 py-1 rounded-md">
+                {data.categories[0]}
+             </span>
+             <div className="text-stone-500">
+                <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+             </div>
           </div>
 
-          {/* Header */}
-          <div className="relative z-10 mb-6 pr-12">
-            <h2 className="text-xl md:text-2xl font-semibold font-display tracking-tight text-slate-900 leading-tight mb-2">
-              {data.name}
-              {data.acronym && <span className="inline-block ml-2 text-base font-medium text-slate-400 align-baseline">({data.acronym})</span>}
-            </h2>
-            {/* Relaxed max-width for description to fit wider card */}
-            <p className="text-[13px] text-stone-500 font-medium leading-relaxed max-w-md font-sans">
-              {data.shortDescription}
-            </p>
+          {/* Center: Illustration (Small & Unique) */}
+          <div className="flex-grow flex items-center justify-center py-4">
+             <div className="w-16 h-16">
+                <AbstractGraphic id={data.id} />
+             </div>
           </div>
 
-          {/* Content Sections */}
-          <div className="mt-auto pt-4 border-t border-stone-200/50">
-            <Section 
-              icon={BookOpen} 
-              title="Definición" 
-              text={data.definition} 
-            />
-            <div className="h-3" />
-            <Section 
-              icon={Target} 
-              title="Objetivo" 
-              text={data.goalConnection} 
-            />
-            <div className="h-3" />
-            <Section 
-              icon={Search} 
-              title="Métodos" 
-              text={data.researchMethods} 
-            />
+          {/* Bottom: Content */}
+          <div>
+             <h2 className="text-2xl font-display font-semibold text-white mb-2 leading-tight">
+               {data.name}
+             </h2>
+             <p className="text-stone-400 text-xs leading-relaxed mb-5 line-clamp-3">
+               {data.shortDescription}
+             </p>
+
+             {/* Footer Info Stack (Vertical) */}
+             <div className="flex flex-col gap-3 border-t border-stone-800 pt-4">
+                {/* Definition */}
+                <div className="flex gap-3 items-start">
+                   <div className="mt-0.5 text-stone-600 shrink-0">
+                      <BookOpen className="w-3.5 h-3.5" />
+                   </div>
+                   <div>
+                      <span className="block text-[9px] text-stone-500 uppercase tracking-widest font-bold mb-0.5">Definición</span>
+                      <p className="text-[11px] text-stone-300 leading-snug">{data.definition}</p>
+                   </div>
+                </div>
+
+                {/* Goal */}
+                <div className="flex gap-3 items-start">
+                   <div className="mt-0.5 text-stone-600 shrink-0">
+                      <Target className="w-3.5 h-3.5" />
+                   </div>
+                   <div>
+                      <span className="block text-[9px] text-stone-500 uppercase tracking-widest font-bold mb-0.5">Objetivo</span>
+                      <p className="text-[11px] text-stone-300 leading-snug">{data.goalConnection}</p>
+                   </div>
+                </div>
+
+                {/* Methods */}
+                <div className="flex gap-3 items-start">
+                   <div className="mt-0.5 text-stone-600 shrink-0">
+                       <ListChecks className="w-3.5 h-3.5" />
+                   </div>
+                   <div>
+                      <span className="block text-[9px] text-stone-500 uppercase tracking-widest font-bold mb-0.5">Métodos</span>
+                      <p className="text-[11px] text-stone-300 leading-snug">{data.researchMethods}</p>
+                   </div>
+                </div>
+             </div>
           </div>
         </div>
 
         {/* --- BACK FACE --- */}
         <div 
-          className={`col-start-1 row-start-1 w-full h-full ${cardBaseClasses} ${borderRadius} p-8 flex flex-col justify-center items-center text-center`}
+          className={`col-start-1 row-start-1 w-full h-full ${cardBaseClasses} ${borderRadius} p-10 flex flex-col justify-center items-center text-center border border-stone-800`}
           style={{ 
             transform: 'rotateY(180deg)', 
             backfaceVisibility: 'hidden', 
             WebkitBackfaceVisibility: 'hidden' 
           }}
         >
-           <div className="mb-8 w-full">
-              <div className={`w-10 h-10 mx-auto rounded-full ${iconBgClass} flex items-center justify-center mb-3`}>
-                 <Calculator className="w-5 h-5 text-slate-900" />
-              </div>
-              <h4 className="font-semibold text-stone-400 text-[10px] uppercase tracking-widest mb-3 font-sans">Fórmula</h4>
-              <div className="bg-white/60 border border-stone-200/50 p-4 rounded-xl inline-block w-full backdrop-blur-sm">
-                 <code className="text-base md:text-lg font-semibold text-slate-800 font-display block break-words">
+           <div className="mb-12 w-full">
+              <span className="inline-block px-3 py-1 rounded-full bg-stone-900 text-stone-400 text-[10px] uppercase tracking-widest font-bold mb-4 border border-stone-800">
+                Fórmula
+              </span>
+              <div className="p-6 rounded-2xl bg-stone-900/40 border border-stone-800 backdrop-blur-sm">
+                 <code className="text-lg font-display font-medium text-white block break-words">
                     {data.formula}
                  </code>
               </div>
            </div>
 
            <div className="w-full">
-              <div className={`w-10 h-10 mx-auto rounded-full ${iconBgClass} flex items-center justify-center mb-3`}>
-                 <Lightbulb className="w-5 h-5 text-slate-900" />
-              </div>
-              <h4 className="font-semibold text-stone-400 text-[10px] uppercase tracking-widest mb-3 font-sans">Ejemplo</h4>
-              <p className="text-stone-600 text-[13px] leading-relaxed font-medium italic">
+              <span className="inline-block px-3 py-1 rounded-full bg-stone-900 text-stone-400 text-[10px] uppercase tracking-widest font-bold mb-4 border border-stone-800">
+                Ejemplo Práctico
+              </span>
+              <p className="text-stone-300 text-sm leading-relaxed font-medium italic px-4">
                  "{data.example}"
               </p>
            </div>
@@ -133,17 +135,3 @@ export const MetricCard: React.FC<MetricCardProps> = ({ data }) => {
     </motion.div>
   );
 };
-
-const Section = ({ icon: Icon, title, text }: { icon: any, title: string, text: string }) => (
-  <div className="flex items-start gap-3.5 relative z-10 mb-4 last:mb-0">
-    <div className="shrink-0 w-7 h-7 rounded-full bg-white/50 flex items-center justify-center mt-0.5">
-      <Icon className="w-3.5 h-3.5 text-slate-900" strokeWidth={2} />
-    </div>
-    <div>
-      <h4 className="font-bold text-slate-400 text-[10px] uppercase tracking-widest mb-1 font-sans">{title}</h4>
-      <p className="text-stone-600 font-normal text-[13px] leading-relaxed">
-        {text}
-      </p>
-    </div>
-  </div>
-);

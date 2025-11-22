@@ -33,10 +33,10 @@ const App: React.FC = () => {
   }, [selectedCategory, searchQuery]);
 
   return (
-    <div className="min-h-screen bg-white text-stone-900 font-sans selection:bg-orange-100 selection:text-orange-900">
+    <div className="min-h-screen bg-white text-stone-900 font-sans selection:bg-black selection:text-white">
       
       {/* Navbar */}
-      <nav className="flex items-center justify-between px-6 md:px-12 py-6 max-w-[1600px] mx-auto w-full">
+      <nav className="flex items-center justify-between px-6 md:px-12 py-6 max-w-[1800px] mx-auto w-full">
         <div className="flex items-center gap-8">
           <a href="#" className="flex items-center gap-2 text-stone-900">
              <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
@@ -47,14 +47,19 @@ const App: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-4">
-          <button className="hidden md:flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-full text-sm font-medium hover:bg-stone-800 transition-colors shrink-0">
-            Submit metric
+          <a 
+            href="https://www.linkedin.com/in/enzomacalupu/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="hidden md:flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-full text-sm font-medium hover:bg-stone-800 transition-colors shrink-0"
+          >
+            Contact me
             <ArrowUpRight className="w-4 h-4" />
-          </button>
+          </a>
         </div>
       </nav>
 
-      <main className="px-6 md:px-12 max-w-[1600px] mx-auto pb-20">
+      <main className="px-6 md:px-12 max-w-[1800px] mx-auto pb-20">
         
         {/* Hero Section */}
         <section className="flex flex-col items-center text-center pt-12 pb-12 gap-8 max-w-4xl mx-auto">
@@ -71,7 +76,7 @@ const App: React.FC = () => {
             </div>
             <input
               type="text"
-              className="block w-full pl-11 pr-4 py-3.5 bg-stone-50 border border-stone-200 rounded-full text-base placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all shadow-sm hover:bg-stone-100"
+              className="block w-full pl-11 pr-4 py-3.5 bg-stone-50 border border-stone-200 rounded-full text-base placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-black focus:border-black transition-all shadow-sm hover:bg-stone-100"
               placeholder="Search metrics..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -98,14 +103,14 @@ const App: React.FC = () => {
                     <p className="text-stone-500 mt-2">Try adjusting your filters or search query.</p>
                     <button 
                       onClick={() => { setSelectedCategory(MetricCategory.ALL); setSearchQuery(''); }} 
-                      className="mt-6 text-orange-600 font-medium hover:underline"
+                      className="mt-6 text-black font-medium hover:underline"
                     >
                       Clear all filters
                     </button>
                  </motion.div>
             ) : (
                 <motion.div 
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr"
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-fr"
                 >
                 <AnimatePresence>
                   {filteredMetrics.map((metric) => (
@@ -120,7 +125,7 @@ const App: React.FC = () => {
 
       {/* Footer */}
       <footer className="border-t border-stone-100 py-16 bg-white">
-         <div className="px-6 md:px-12 max-w-[1600px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+         <div className="px-6 md:px-12 max-w-[1800px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
             <div className="flex items-center gap-2">
                <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
                   <span className="text-white font-bold text-lg font-display">M</span>
