@@ -13,7 +13,8 @@ export const MetricCard: React.FC<MetricCardProps> = ({ data }) => {
 
   // Dark Mode Minimalist Style
   const cardBaseClasses = "bg-black text-white overflow-hidden shadow-xl";
-  const borderRadius = "rounded-[2rem]";
+  // Changed from rounded-[2rem] (32px) to rounded-2xl (16px)
+  const borderRadius = "rounded-2xl";
 
   return (
     <motion.div
