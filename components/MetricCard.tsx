@@ -30,27 +30,10 @@ export const MetricCard: React.FC<MetricCardProps> = ({ data }) => {
   const iconBgClass = iconBgStyles[data.theme];
   const cardBgClass = cardBgStyles[data.theme];
   
-  // Professional Look: Pastel bg, subtle border
-  const cardBaseClasses = `${cardBgClass} border border-stone-200 shadow-sm hover:shadow-md transition-shadow`;
-  const borderRadius = "rounded-3xl";
-
-  const handleFlip = () => {
-    setIsFlipped(!isFlipped);
-  };
-
-  const Section = ({ icon: Icon, title, text }: { icon: any, title: string, text: string }) => (
-    <div className="flex items-start gap-3.5 relative z-10 mb-4 last:mb-0">
-      <div className={`shrink-0 w-7 h-7 rounded-full ${iconBgClass} flex items-center justify-center mt-0.5`}>
-        <Icon className="w-3.5 h-3.5 text-slate-900" strokeWidth={2} />
-      </div>
-      <div>
-        <h4 className="font-bold text-slate-400 text-[10px] uppercase tracking-widest mb-1 font-sans">{title}</h4>
-        <p className="text-stone-600 font-normal text-[13px] leading-relaxed">
-          {text}
-        </p>
-      </div>
-    </div>
-  );
+  // Removed border classes, kept shadow and bg
+  const cardBaseClasses = `${cardBgClass} shadow-sm transition-all duration-300 group-hover:shadow-md`;
+  // Changed to rounded-xl (12px)
+  const borderRadius = "rounded-xl";
 
   return (
     <motion.div
@@ -58,9 +41,10 @@ export const MetricCard: React.FC<MetricCardProps> = ({ data }) => {
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.95 }}
+      whileHover={{ y: -5 }} // Microinteraction: Lift on hover
       transition={{ duration: 0.3, ease: "easeOut" }}
       className="h-full perspective-1000 cursor-pointer group w-full"
-      onClick={handleFlip}
+      onClick={() => setIsFlipped(!isFlipped)}
     >
       <motion.div
         className="relative w-full h-full grid grid-cols-1 grid-rows-1"
@@ -81,7 +65,7 @@ export const MetricCard: React.FC<MetricCardProps> = ({ data }) => {
 
           {/* Header */}
           <div className="relative z-10 mb-6 pr-12">
-            <h2 className="text-xl md:text-2xl font-bold font-display tracking-tight text-slate-900 leading-tight mb-2">
+            <h2 className="text-xl md:text-2xl font-semibold font-display tracking-tight text-slate-900 leading-tight mb-2">
               {data.name}
               {data.acronym && <span className="inline-block ml-2 text-base font-medium text-slate-400 align-baseline">({data.acronym})</span>}
             </h2>
@@ -111,11 +95,6 @@ export const MetricCard: React.FC<MetricCardProps> = ({ data }) => {
               text={data.researchMethods} 
             />
           </div>
-
-          {/* Flip Hint */}
-          <div className="absolute bottom-4 right-6 opacity-0 group-hover:opacity-100 transition-opacity">
-             <span className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">View Formula</span>
-          </div>
         </div>
 
         {/* --- BACK FACE --- */}
@@ -131,9 +110,9 @@ export const MetricCard: React.FC<MetricCardProps> = ({ data }) => {
               <div className={`w-10 h-10 mx-auto rounded-full ${iconBgClass} flex items-center justify-center mb-3`}>
                  <Calculator className="w-5 h-5 text-slate-900" />
               </div>
-              <h4 className="font-bold text-stone-400 text-[10px] uppercase tracking-widest mb-3 font-sans">Fórmula</h4>
+              <h4 className="font-semibold text-stone-400 text-[10px] uppercase tracking-widest mb-3 font-sans">Fórmula</h4>
               <div className="bg-white/60 border border-stone-200/50 p-4 rounded-xl inline-block w-full backdrop-blur-sm">
-                 <code className="text-base md:text-lg font-bold text-slate-800 font-display block break-words">
+                 <code className="text-base md:text-lg font-semibold text-slate-800 font-display block break-words">
                     {data.formula}
                  </code>
               </div>
@@ -143,7 +122,7 @@ export const MetricCard: React.FC<MetricCardProps> = ({ data }) => {
               <div className={`w-10 h-10 mx-auto rounded-full ${iconBgClass} flex items-center justify-center mb-3`}>
                  <Lightbulb className="w-5 h-5 text-slate-900" />
               </div>
-              <h4 className="font-bold text-stone-400 text-[10px] uppercase tracking-widest mb-3 font-sans">Ejemplo</h4>
+              <h4 className="font-semibold text-stone-400 text-[10px] uppercase tracking-widest mb-3 font-sans">Ejemplo</h4>
               <p className="text-stone-600 text-[13px] leading-relaxed font-medium italic">
                  "{data.example}"
               </p>
@@ -154,3 +133,17 @@ export const MetricCard: React.FC<MetricCardProps> = ({ data }) => {
     </motion.div>
   );
 };
+
+const Section = ({ icon: Icon, title, text }: { icon: any, title: string, text: string }) => (
+  <div className="flex items-start gap-3.5 relative z-10 mb-4 last:mb-0">
+    <div className="shrink-0 w-7 h-7 rounded-full bg-white/50 flex items-center justify-center mt-0.5">
+      <Icon className="w-3.5 h-3.5 text-slate-900" strokeWidth={2} />
+    </div>
+    <div>
+      <h4 className="font-bold text-slate-400 text-[10px] uppercase tracking-widest mb-1 font-sans">{title}</h4>
+      <p className="text-stone-600 font-normal text-[13px] leading-relaxed">
+        {text}
+      </p>
+    </div>
+  </div>
+);

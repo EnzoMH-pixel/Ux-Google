@@ -59,7 +59,7 @@ const App: React.FC = () => {
         {/* Hero Section */}
         <section className="flex flex-col items-center text-center pt-12 pb-12 gap-8 max-w-4xl mx-auto">
           <h1 className="font-display text-4xl md:text-5xl lg:text-[56px] font-medium tracking-tight text-slate-900 leading-[1.1]">
-            Design inspiration <br className="hidden md:block" />
+            The ultimate resource <br className="hidden md:block" />
             featuring only the top <br className="hidden md:block" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-amber-500">UX Metrics</span> in the industry.
           </h1>
